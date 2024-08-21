@@ -4,6 +4,10 @@
 1. [Inline Function](#inline-function)
 1. [Extract Variable](#extract-variable)
 
+**Encapsulation**
+
+1. [Substitute Algorithm](#substitute-algorithm)
+
 ## Extract Function
 
 **Before:**
@@ -161,5 +165,36 @@ function calculateTotalPrice(order, discountRate) {
 
 - The purpose is to improve code readability by introducing a named variable for an expression to clearly state the purpose or intent of that expression.
 - This refactoring clarifies complex expressions and simplifies debugging by breaking down code into more understandable parts.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Substitute Algorithm
+
+**Before:**
+
+```javascript
+function findMaxValue(arr) {
+  let max = -Infinity;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+  return max;
+}
+```
+
+**After:**
+
+```javascript
+function findMaxValue(arr) {
+  return Math.max(...arr);
+}
+```
+
+### **Motivation:**
+
+- The purpose is to improve code clarity and maintainability by replacing a complex or inefficient algorithm with a simpler or more efficient one.
+- This refactoring helps make the code easier to understand, modify, and optimize.
 
 **[⬆ back to top](#table-of-contents)**
