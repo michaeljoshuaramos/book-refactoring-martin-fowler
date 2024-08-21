@@ -1,6 +1,7 @@
 ## Table of Contents
 
 1. [Extract Function](#extract--function)
+1. [Inline Function](#inline--function)
 
 ## Extract Function
 
@@ -97,10 +98,6 @@ function sendOrderConfirmationEmail(
 
 - The purpose is to clarify what the code is supposed to do (the intent) and hide the details of how it does it (the implementation).
 
-### **Mechanics:**
-
-- Create a new function, and name it after the intent of the function (name it by what it does, not by how it does it).
-
 ### Key Points
 
 <a name="extract--function--call"></a><a name="1.1"></a>
@@ -128,5 +125,37 @@ function sendProfileUpdateNotification(email) {
   sendEmail(email, "Your profile has been updated");
 }
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Inline Function
+
+**Before:**
+
+```javascript
+function getDiscountedPrice(price, discount) {
+  return applyDiscount(price, discount);
+}
+
+function applyDiscount(amount, discount) {
+  return amount * discount;
+}
+
+const finalPrice = getDiscountedPrice(100, 0.9);
+```
+
+**After:**
+
+```javascript
+function getDiscountedPrice(price, discount) {
+  return price * 0.9;
+}
+
+const finalPrice = getDiscountedPrice(100, 0.9);
+```
+
+### **Motivation:**
+
+- The purpose is to simplify the code by removing a function whose body is just as clear as its name. This refactoring is applied when a function's abstraction no longer adds value, making the code more straightforward by inlining the function's logic directly into its callers.
 
 **[⬆ back to top](#table-of-contents)**
