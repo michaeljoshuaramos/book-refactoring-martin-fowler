@@ -12,20 +12,7 @@ function processOrder(order) {
   // Calculate total price
   let totalPrice = 0;
   for (let item of order.items) {
-    let itemTotal = item.quantity * item.price;
-    if (item.category === "grocery") {
-      itemTotal *= 0.9; // Apply discount for groceries
-    }
-    totalPrice += itemTotal;
-  }
-
-  // Update order status
-  if (order.paymentStatus === "paid") {
-    order.status = "processing";
-  } else if (order.paymentStatus === "pending") {
-    order.status = "awaiting payment";
-  } else {
-    order.status = "payment failed";
+    totalPrice += item.quantity * item.price;
   }
 
   // Send confirmation email
@@ -46,8 +33,7 @@ function processOrder(order) {
 ```javascript
 function processOrder(order) {
   const totalPrice = calculateTotalPrice(order.items);
-  order.status = determineOrderStatus(order.paymentStatus);
-  sendOrderConfirmationEmail(
+  sendConfirmationEmail(
     order.customerName,
     order.customerEmail,
     totalPrice,
@@ -57,40 +43,14 @@ function processOrder(order) {
 }
 
 function calculateTotalPrice(items) {
-  let totalPrice = 0;
-  for (let item of items) {
-    let itemTotal = item.quantity * item.price;
-    if (item.category === "grocery") {
-      itemTotal *= 0.9; // Apply discount for groceries
-    }
-    totalPrice += itemTotal;
-  }
-  return totalPrice;
+  return items.reduce((total, item) => total + item.quantity * item.price, 0);
 }
 
-function determineOrderStatus(paymentStatus) {
-  if (paymentStatus === "paid") {
-    return "processing";
-  } else if (paymentStatus === "pending") {
-    return "awaiting payment";
-  } else {
-    return "payment failed";
-  }
-}
-
-function sendOrderConfirmationEmail(
-  customerName,
-  customerEmail,
-  totalPrice,
-  status
-) {
-  let emailMessage = `Dear ${customerName},\n\n`;
-  emailMessage += `Thank you for your order! Your total is $${totalPrice.toFixed(
+function sendConfirmationEmail(name, email, totalPrice, status) {
+  const message = `Dear ${name},\n\nThank you for your order! Your total is $${totalPrice.toFixed(
     2
-  )}.`;
-  emailMessage += ` Your order is currently ${status}. We will notify you when it has been shipped.\n\n`;
-  emailMessage += "Best regards,\nYour Store";
-  sendEmail(customerEmail, "Order Confirmation", emailMessage);
+  )}. Your order is currently ${status}. We will notify you when it has been shipped.\n\nBest regards,\nYour Store`;
+  sendEmail(email, "Order Confirmation", message);
 }
 ```
 
@@ -148,7 +108,7 @@ const finalPrice = getDiscountedPrice(100, 0.9);
 
 ```javascript
 function getDiscountedPrice(price, discount) {
-  return price * 0.9;
+  return price * discount;
 }
 
 const finalPrice = getDiscountedPrice(100, 0.9);
