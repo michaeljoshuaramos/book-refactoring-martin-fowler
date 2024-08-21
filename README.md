@@ -14,6 +14,8 @@
 
 1. [Decompose Conditional](#decompose-conditional)
 1. [Consolidate Conditional Expression](#consolidate-conditional-expression)
+1. [Replace Nested Conditional with Guard Clauses](#replace-nested-conditional-with-guard-clauses)
+1. [Introduce Assertion](#introduce-assertion)
 
 ## Extract Function
 
@@ -278,5 +280,77 @@ function getDiscount(order) {
 ### **Motivation:**
 
 - The purpose is to simplify code by combining multiple conditional checks that lead to the same outcome into a single, unified condition.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Replace Nested Conditional with Guard Clauses
+
+**Before:**
+
+```javascript
+function processOrder(order) {
+  if (order.isValid) {
+    if (order.paymentStatus === "paid") {
+      if (!order.isShipped) {
+        shipOrder(order);
+      }
+    }
+  }
+}
+```
+
+**After:**
+
+```javascript
+function processOrder(order) {
+  if (!order.isValid) return;
+  if (order.paymentStatus !== "paid") return;
+  if (order.isShipped) return;
+
+  shipOrder(order);
+}
+```
+
+### **Motivation:**
+
+- The purpose is to simplify complex, deeply nested conditional logic by using guard clauses to handle special cases or exceptions upfront.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Introduce Assertion
+
+**Before:**
+
+```javascript
+function applyDiscount(order) {
+  const discount = order.discountRate;
+  const total = order.total;
+
+  // Calculate discounted price
+  order.finalPrice = total - (total * discount) / 100;
+}
+```
+
+**After:**
+
+```javascript
+function applyDiscount(order) {
+  console.assert(
+    order.discountRate >= 0 && order.discountRate <= 100,
+    "Discount rate must be between 0 and 100"
+  );
+  console.assert(order.total >= 0, "Total amount must be non-negative");
+
+  const discount = order.discountRate;
+  const total = order.total;
+
+  // Calculate discounted price
+  order.finalPrice = total - (total * discount) / 100;
+}
+```
+
+### **Motivation:**
+
+- The purpose is to make assumptions in the code explicit by adding assertions that check for expected conditions. This helps catch programming errors early, improves code clarity, and makes the code more robust by ensuring that certain conditions hold true during execution.
 
 **[⬆ back to top](#table-of-contents)**
