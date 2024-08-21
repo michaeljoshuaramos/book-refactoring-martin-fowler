@@ -103,7 +103,9 @@ function sendOrderConfirmationEmail(
 
 ### Key Points
 
-- Even if the code to extract is just a simple function call, it's worth doing if the new function name better clarifies the code's intent.
+<a name="extract--function--call"></a><a name="1.1"></a>
+
+- [1.1](#extract--function--call) Even if the code to extract is just a simple function call, it's worth doing if the new function name better clarifies the code's intent.
 
 **Before:**
 
@@ -126,3 +128,5 @@ function sendProfileUpdateNotification(email) {
   sendEmail(email, "Your profile has been updated");
 }
 ```
+
+**[⬆ back to top](#table-of-contents)**
