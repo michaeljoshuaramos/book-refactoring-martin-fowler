@@ -1,7 +1,7 @@
 ## Table of Contents
 
-1. [Extract Function](#extract--function)
-1. [Inline Function](#inline--function)
+1. [Extract Function](#extract-function)
+1. [Inline Function](#inline-function)
 
 ## Extract Function
 
