@@ -7,44 +7,6 @@
 **Before:**
 
 ```javascript
-function printOwing(invoice) {
-  printBanner();
-
-  let outstanding = calculateOutstanding();
-
-  // print details
-  console.log(`name: ${invoice.customer}`);
-  console.log(`amount: ${outstanding}`);
-}
-```
-
-**After:**
-
-```javascript
-function printOwing(invoice) {
-  printBanner();
-
-  let outstanding = calculateOutstanding();
-  printDetails(outstanding);
-
-  function printDetails(outstanding) {
-    console.log(`name: ${invoice.customer}`);
-    console.log(`amount: ${outstanding}`);
-  }
-}
-```
-
-### **Motivation:**
-
-- The purpose is to clarify what the code is supposed to do (the intent) and hide the details of how it does it (the implementation).
-
-### **Mechanics:**
-
-### **Example:**
-
-**Before:**
-
-```javascript
 function processOrder(order) {
   // Calculate total price
   let totalPrice = 0;
@@ -128,5 +90,39 @@ function sendOrderConfirmationEmail(
   emailMessage += ` Your order is currently ${status}. We will notify you when it has been shipped.\n\n`;
   emailMessage += "Best regards,\nYour Store";
   sendEmail(customerEmail, "Order Confirmation", emailMessage);
+}
+```
+
+### **Motivation:**
+
+- The purpose is to clarify what the code is supposed to do (the intent) and hide the details of how it does it (the implementation).
+
+### **Mechanics:**
+
+- Create a new function, and name it after the intent of the function (name it by what it does, not by how it does it).
+
+### Key Points
+
+- Even if the code to extract is just a simple function call, it's worth doing if the new function name better clarifies the code's intent.
+
+**Before:**
+
+```javascript
+function updateUserProfile(user) {
+  saveUserData(user);
+  sendEmail(user.email, "Your profile has been updated");
+}
+```
+
+**After:**
+
+```javascript
+function updateUserProfile(user) {
+  saveUserData(user);
+  sendProfileUpdateNotification(user.email);
+}
+
+function sendProfileUpdateNotification(email) {
+  sendEmail(email, "Your profile has been updated");
 }
 ```
