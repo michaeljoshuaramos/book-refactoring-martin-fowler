@@ -1,3 +1,7 @@
+## Table of Contents
+
+1. [Extract Function](#extract--function)
+
 ## Extract Function
 
 **Before:**
@@ -30,7 +34,7 @@ function printOwing(invoice) {
 }
 ```
 
-**Motivation:**
+### **Motivation:**
 
 - The purpose is to clarify what the code is supposed to do (the intent) and hide the details of how it does it (the implementation).
 
