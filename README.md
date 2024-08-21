@@ -12,7 +12,8 @@
 
 **Simplifying Conditional Logic**
 
-1. [Substitute Algorithm](#substitute-algorithm)
+1. [Decompose Conditional](#decompose-conditional)
+1. [Consolidate Conditional Expression](#consolidate-conditional-expression)
 
 ## Extract Function
 
@@ -152,14 +153,13 @@ function calculateTotalPrice(order, discountRate) {
 
 ```javascript
 function calculateSubTotalPrice(items) { ... }
+function calculateDiscountedPrice(price, discountRate) { ... }
 
 function calculateTotalPrice(order, discountRate) {
   const subTotalPrice = calculateSubTotalPrice(order.items);
-  const discountAmount = (subTotalPrice * discountRate) / 100;
+  const discountedPrice = calculateDiscountedPrice(subTotalPrice, discountRate);
   const freeShippingThreshold = 150;
   const shippingCost = 10;
-
-  const discountedPrice = subTotalPrice - discountAmount;
 
   return discountedPrice > freeShippingThreshold
     ? discountedPrice
@@ -202,5 +202,84 @@ function getOnSaleProducts(products) {
 
 - The purpose is to improve code clarity and maintainability by replacing a complex or inefficient algorithm with a simpler or more efficient one.
 - This refactoring helps make the code easier to understand, modify, and optimize.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Decompose Conditional
+
+**Before:**
+
+```javascript
+function getShippingCost(order) {
+  if (order.isMember && order.total > 100) {
+    return 0;
+  } else if (order.total > 200) {
+    return 0;
+  } else {
+    return 10;
+  }
+}
+```
+
+**After:**
+
+```javascript
+function getShippingCost(order) {
+  if (isEligibleForFreeShipping(order)) {
+    return 0;
+  }
+  return 10;
+}
+
+function isEligibleForFreeShipping(order) {
+  return (order.isMember && order.total > 100) || order.total > 200;
+}
+```
+
+### **Motivation:**
+
+- The purpose is to improve code readability and maintainability by breaking down complex conditional statements into separate, self-explanatory methods or variables.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Consolidate Conditional Expression
+
+**Before:**
+
+```javascript
+function getDiscount(order) {
+  if (order.customer.isMember) {
+    return 10;
+  }
+  if (order.total > 100) {
+    return 10;
+  }
+  if (order.promoCode === "SAVE10") {
+    return 10;
+  }
+  return 0;
+}
+```
+
+**After:**
+
+```javascript
+function isEligibleForDiscount(order) {
+  return (
+    order.customer.isMember || order.total > 100 || order.promoCode === "SAVE10"
+  );
+}
+
+function getDiscount(order) {
+  if (isEligibleForDiscount(order)) {
+    return 10;
+  }
+  return 0;
+}
+```
+
+### **Motivation:**
+
+- The purpose is to simplify code by combining multiple conditional checks that lead to the same outcome into a single, unified condition.
 
 **[⬆ back to top](#table-of-contents)**
