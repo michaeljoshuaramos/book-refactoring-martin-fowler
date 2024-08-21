@@ -128,8 +128,7 @@ const finalPrice = calculateDiscountedPrice(100, 10);
 
 ### **Motivation:**
 
-- The purpose is to simplify the code by removing a function whose body is just as clear as its name.
-- This refactoring is applied when a function's abstraction no longer adds value, making the code more straightforward by inlining the function's logic directly into its callers.
+- The purpose is to simplify the code by removing a function whose body is just as clear as its name. This applies when a function's abstraction no longer adds value, making the code more straightforward by inlining the function's logic directly into its callers.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -170,7 +169,6 @@ function calculateTotalPrice(order, discountRate) {
 ### **Motivation:**
 
 - The purpose is to improve code readability by introducing a named variable for an expression to clearly state the purpose or intent of that expression.
-- This refactoring clarifies complex expressions and simplifies debugging by breaking down code into more understandable parts.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -201,7 +199,6 @@ function getOnSaleProducts(products) {
 ### **Motivation:**
 
 - The purpose is to improve code clarity and maintainability by replacing a complex or inefficient algorithm with a simpler or more efficient one.
-- This refactoring helps make the code easier to understand, modify, and optimize.
 
 **[⬆ back to top](#table-of-contents)**
 
