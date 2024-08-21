@@ -34,9 +34,9 @@ function printOwing(invoice) {
 
 - The purpose is to clarify what the code is supposed to do (the intent) and hide the details of how it does it (the implementation).
 
-## **Mechanics:**
+### **Mechanics:**
 
-**Example:**
+### **Example:**
 
 **Before:**
 
