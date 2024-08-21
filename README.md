@@ -1,10 +1,16 @@
 ## Table of Contents
 
+**A First Set of Refactoring**
+
 1. [Extract Function](#extract-function)
 1. [Inline Function](#inline-function)
 1. [Extract Variable](#extract-variable)
 
 **Encapsulation**
+
+1. [Substitute Algorithm](#substitute-algorithm)
+
+**Simplifying Conditional Logic**
 
 1. [Substitute Algorithm](#substitute-algorithm)
 
@@ -102,8 +108,8 @@ function calculateDiscountedPrice(price, discountRate) {
   return applyDiscount(price, discountRate);
 }
 
-function applyDiscount(amount, discountRate) {
-  return amount * discountRate;
+function applyDiscount(price, discountRate) {
+  return price - (price * discountRate) / 100;
 }
 
 const finalPrice = calculateDiscountedPrice(100, 10);
@@ -113,10 +119,10 @@ const finalPrice = calculateDiscountedPrice(100, 10);
 
 ```javascript
 function calculateDiscountedPrice(price, discountRate) {
-  return (price * discountRate) / 100;
+  return price - (price * discountRate) / 100;
 }
 
-const finalPrice = calculateDiscountedPrice(100, 0.9);
+const finalPrice = calculateDiscountedPrice(100, 10);
 ```
 
 ### **Motivation:**
@@ -173,22 +179,22 @@ function calculateTotalPrice(order, discountRate) {
 **Before:**
 
 ```javascript
-function findMaxValue(arr) {
-  let max = -Infinity;
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] > max) {
-      max = arr[i];
+function getOnSaleProducts(products) {
+  let onSaleProducts = [];
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].onSale) {
+      onSaleProducts.push(products[i]);
     }
   }
-  return max;
+  return onSaleProducts;
 }
 ```
 
 **After:**
 
 ```javascript
-function findMaxValue(arr) {
-  return Math.max(...arr);
+function getOnSaleProducts(products) {
+  return products.filter((product) => product.onSale);
 }
 ```
 
