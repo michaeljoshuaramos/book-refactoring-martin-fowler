@@ -127,9 +127,7 @@ const finalPrice = calculateDiscountedPrice(100, 0.9);
 **Before:**
 
 ```javascript
-function calculateSubTotalPrice(items) {
-  return items.reduce((total, item) => total + item.quantity * item.price, 0);
-}
+function calculateSubTotalPrice(items) { ... }
 
 function calculateTotalPrice(order, discountRate) {
   const subTotalPrice = calculateSubTotalPrice(order.items);
@@ -143,9 +141,7 @@ function calculateTotalPrice(order, discountRate) {
 **After:**
 
 ```javascript
-function calculateSubTotalPrice(items) {
-  return items.reduce((total, item) => total + item.quantity * item.price, 0);
-}
+function calculateSubTotalPrice(items) { ... }
 
 function calculateTotalPrice(order, discountRate) {
   const subTotalPrice = calculateSubTotalPrice(order.items);
