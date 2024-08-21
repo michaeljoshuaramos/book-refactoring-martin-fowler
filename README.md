@@ -2,6 +2,7 @@
 
 1. [Extract Function](#extract-function)
 1. [Inline Function](#inline-function)
+1. [Extract Variable](#extract-variable)
 
 ## Extract Function
 
@@ -93,29 +94,74 @@ function sendProfileUpdateNotification(email) {
 **Before:**
 
 ```javascript
-function getDiscountedPrice(price, discount) {
-  return applyDiscount(price, discount);
+function calculateDiscountedPrice(price, discountRate) {
+  return applyDiscount(price, discountRate);
 }
 
-function applyDiscount(amount, discount) {
-  return amount * discount;
+function applyDiscount(amount, discountRate) {
+  return amount * discountRate;
 }
 
-const finalPrice = getDiscountedPrice(100, 0.9);
+const finalPrice = calculateDiscountedPrice(100, 10);
 ```
 
 **After:**
 
 ```javascript
-function getDiscountedPrice(price, discount) {
-  return price * discount;
+function calculateDiscountedPrice(price, discountRate) {
+  return (price * discountRate) / 100;
 }
 
-const finalPrice = getDiscountedPrice(100, 0.9);
+const finalPrice = calculateDiscountedPrice(100, 0.9);
 ```
 
 ### **Motivation:**
 
 - The purpose is to simplify the code by removing a function whose body is just as clear as its name. This refactoring is applied when a function's abstraction no longer adds value, making the code more straightforward by inlining the function's logic directly into its callers.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Extract Variable
+
+**Before:**
+
+```javascript
+function calculateSubTotalPrice(items) {
+  return items.reduce((total, item) => total + item.quantity * item.price, 0);
+}
+
+function calculateTotalPrice(order, discountRate) {
+  const subTotalPrice = calculateSubTotalPrice(order.items);
+
+  return subTotalPrice - (subTotalPrice * discountRate) / 100 > 150
+    ? subTotalPrice - (subTotalPrice * discountRate) / 100
+    : subTotalPrice - (subTotalPrice * discountRate) / 100 + 10;
+}
+```
+
+**After:**
+
+```javascript
+function calculateSubTotalPrice(items) {
+  return items.reduce((total, item) => total + item.quantity * item.price, 0);
+}
+
+function calculateTotalPrice(order, discountRate) {
+  const subTotalPrice = calculateSubTotalPrice(order.items);
+  const discountAmount = (subTotalPrice * discountRate) / 100;
+  const freeShippingThreshold = 150;
+  const shippingCost = 10;
+
+  const discountedPrice = subTotalPrice - discountAmount;
+
+  return discountedPrice > freeShippingThreshold
+    ? discountedPrice
+    : discountedPrice + shippingCost;
+}
+```
+
+### **Motivation:**
+
+- The purpose is to improve code readability by introducing a named variable for an expression to clearly the purpose or intent of that expression. This refactoring clarifies complex expressions and simplifies debugging by breaking down code into more understandable parts.
 
 **[⬆ back to top](#table-of-contents)**
