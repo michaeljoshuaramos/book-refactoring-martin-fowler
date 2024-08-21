@@ -1,16 +1,24 @@
 ## Table of Contents
 
-**A First Set of Refactoring**
+**Chapter 6: A First Set of Refactoring**
 
 1. [Extract Function](#extract-function)
 1. [Inline Function](#inline-function)
 1. [Extract Variable](#extract-variable)
 
-**Encapsulation**
+**Chapter 7: Encapsulation**
 
 1. [Substitute Algorithm](#substitute-algorithm)
 
-**Simplifying Conditional Logic**
+**Chapter 8: Moving Features**
+
+1. [Replace Loop with Pipeline](#replace-loop-with-pipeline)
+
+**Chapter 9: Organizing Data**
+
+1. [Split Variable](#split-variable)
+
+**Chapter 10: Simplifying Conditional Logic**
 
 1. [Decompose Conditional](#decompose-conditional)
 1. [Consolidate Conditional Expression](#consolidate-conditional-expression)
@@ -201,6 +209,86 @@ function getOnSaleProducts(products) {
 ### **Motivation:**
 
 - The purpose is to improve code clarity and maintainability by replacing a complex or inefficient algorithm with a simpler or more efficient one.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Replace Loop with Pipeline
+
+**Before:**
+
+```javascript
+function getDiscountedProductNames(products) {
+  const discountedProductNames = [];
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].stock > 0 && products[i].discount > 0) {
+      discountedProductNames.push(products[i].name);
+    }
+  }
+  return discountedProductNames;
+}
+```
+
+**After:**
+
+```javascript
+function getDiscountedProductNames(products) {
+  return products
+    .filter((product) => product.stock > 0 && product.discount > 0)
+    .map((product) => product.name);
+}
+```
+
+### **Motivation:**
+
+- The purpose is to improve code readability and maintainability by using functional programming constructs, such as map, filter, and reduce, to process data in a more declarative and expressive manner.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Split Variable
+
+**Before:**
+
+```javascript
+function calculateOrderTotal(order) {
+  let total = 0;
+  let discountAmount = 0;
+
+  for (let item of order.items) {
+    total += item.price * item.quantity;
+  }
+
+  if (order.discountCode) {
+    discountAmount = total * 0.1; // 10% discount
+    total -= discountAmount;
+  }
+
+  return total;
+}
+```
+
+**After:**
+
+```javascript
+function calculateTotalPrice(items) { ... }
+
+function calculateDiscountAmount(discountCode, total) {
+    if (discountCode === 'SAVE10') {
+        return total * 0.1; // 10% discount
+    }
+    return 0;
+}
+
+function calculateOrderTotal(order) {
+    const total = calculateTotalPrice(order.items);
+    const discountAmount = calculateDiscountAmount(order.discountCode, total);
+
+    return total - discountAmount;
+}
+```
+
+### **Motivation:**
+
+- The purpose is to improve code clarity and maintainability by separating variables that are used for different purposes into distinct variables.
 
 **[⬆ back to top](#table-of-contents)**
 
